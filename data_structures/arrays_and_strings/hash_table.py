@@ -1,2 +1,0 @@
-class HashTable:
-    pass
