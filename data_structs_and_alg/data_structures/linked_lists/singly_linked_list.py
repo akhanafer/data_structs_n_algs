@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Union
 
 
 class SinglyLinkedList:
@@ -75,6 +75,12 @@ class SinglyLinkedList:
         for _ in range(index):
             it = it._next
         return it.data
+
+    def get_value(self, value: Any) -> Union[Any, None]:
+        it = self.head
+        while (it.data != value) and (it._next is not None):
+            it = it._next
+        return it.data if it.data == value else None
 
     def __len__(self) -> Any:
         return self.size

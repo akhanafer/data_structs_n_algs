@@ -1,7 +1,8 @@
 from contextlib import nullcontext as does_not_raise
 
 import pytest
-from data_structures.linked_lists.singly_linked_list import SinglyLinkedList
+
+from data_structs_and_alg.data_structures.linked_lists.singly_linked_list import SinglyLinkedList
 
 
 @pytest.mark.parametrize(
@@ -261,3 +262,21 @@ def test_get(initial_data, get_index, expected_output, error):
         else:
             sll = SinglyLinkedList()
         assert sll.get(get_index) == expected_output
+
+
+@pytest.mark.parametrize(
+    ['initial_data', 'get_value', 'expected_output', 'error'],
+    [
+        pytest.param([1, 2, 3], 2, 2, does_not_raise(), id='list initialized with data'),
+        pytest.param([1, 2, 3], 1, 1, does_not_raise(), id='get first'),
+        pytest.param([1, 2, 3], 3, 3, does_not_raise(), id='get last'),
+        pytest.param([1, 2, 3], 10, None, does_not_raise(), id='list initialized empty'),
+    ],
+)
+def test_get_value(initial_data, get_value, expected_output, error):
+    with error:
+        if initial_data:
+            sll = SinglyLinkedList(*initial_data)
+        else:
+            sll = SinglyLinkedList()
+        assert sll.get_value(get_value) == expected_output
