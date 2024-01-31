@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def is_unique(s: str) -> bool:
     """
     Returns true if s has all unique characters
@@ -66,3 +69,70 @@ def check_permutation(s1: str, s2: str) -> bool:
         char_count[ord(char) - ord('a')] += 1
 
     return sum(char_count) % 2 == 0
+
+
+def urlify(s: str) -> str:
+    """
+    Returns s with all spaces relaced with '%20'.
+
+    Time Complexity: Have to loop through all characters of s
+        to find the spaces. O(n)
+    Space Complexity: Storing result into a string of size n. O(n)
+    """
+    result = ''
+    s_stripped = s.strip()
+    for char in s_stripped:
+        if char == ' ':
+            result += '%20'
+        else:
+            result += char
+    return result
+
+
+def palindrome_permutation(s: str) -> bool:
+    """
+    Returns true if s is a permutation of a palindrome. s is a
+    palindrome if it's read in the same way both forward and backward.
+    For s to be a palindrome, it has to have an even number of each character,
+    except for one (middle character)
+
+    Time Complexity: Have to loop over all the characters of s. O(n)
+
+    Space Complexity: Assuming s is ASCII, char_count will have a max size
+    of 128, so space is O(1). If this assumption doesn't hold, then O(c) where
+    c is the max number of characters in the encoding scheme of s.
+    """
+    s = s.lower().replace(' ', '')
+    char_count = {char: 0 for char in s}
+    num_odd = 0
+    for char in s:
+        char_count[char] += 1
+    for count in char_count.values():
+        if count % 2 != 0:
+            num_odd += 1
+        if num_odd > 1:
+            return False
+    return True
+
+
+def one_way(s1: str, s2: str) -> bool:
+    """
+    Returns True if s1 and s2 are one edit away from eachother.
+
+    Time Complexity: len(s1) <= len(s2) <= 1, so in the worst case len(s1) == len(s2) -1,
+        or vice versa. We can say O(n) because we have to loop through all the characters
+
+    Space Complexity: O(1) assuming s1 and s2 are ASCII encoded, O(n) otherwise.
+    """
+
+    if abs(len(s1) - len(s2)) > 1:
+        return False
+
+    s1_arr = [0] * 128
+    s2_arr = [0] * 128
+
+    for char in s1:
+        s1_arr[ord(char) - ord('a')] += 1
+    for char in s2:
+        s2_arr[ord(char) - ord('a')] += 1
+    return np.sum(np.abs(np.subtract(s1_arr, s2_arr))) <= 2
